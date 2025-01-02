@@ -31,7 +31,6 @@ $(OBJ_DIR)/%.o: %.c
 	@echo + CC $<
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(SO_CFLAGS) -c -o $@ $<
-	$(call call_fixdep, $(@:.o=.d), $@)
 
 # Dependencies
 -include $(OBJS:.o=.d)

@@ -23,14 +23,12 @@ endif
 
 Q            := @
 KCONFIG_PATH := $(NEMU_HOME)/tools/kconfig
-FIXDEP_PATH  := $(NEMU_HOME)/tools/fixdep
 Kconfig      := $(NEMU_HOME)/Kconfig
 rm-distclean += include/generated include/config .config .config.old
 silent := -s
 
 CONF   := $(KCONFIG_PATH)/build/conf
 MCONF  := $(KCONFIG_PATH)/build/mconf
-FIXDEP := $(FIXDEP_PATH)/build/fixdep
 
 $(CONF):
 	$(Q)$(MAKE) $(silent) -C $(KCONFIG_PATH) NAME=conf
@@ -38,17 +36,14 @@ $(CONF):
 $(MCONF):
 	$(Q)$(MAKE) $(silent) -C $(KCONFIG_PATH) NAME=mconf
 
-$(FIXDEP):
-	$(Q)$(MAKE) $(silent) -C $(FIXDEP_PATH)
-
-menuconfig: $(MCONF) $(CONF) $(FIXDEP)
+menuconfig: $(MCONF) $(CONF)
 	$(Q)$(MCONF) $(Kconfig)
 	$(Q)$(CONF) $(silent) --syncconfig $(Kconfig)
 
 savedefconfig: $(CONF)
 	$(Q)$< $(silent) --$@=configs/defconfig $(Kconfig)
 
-%defconfig: $(CONF) $(FIXDEP)
+%defconfig: $(CONF)
 	$(Q)$< $(silent) --defconfig=configs/$@ $(Kconfig)
 	$(Q)$< $(silent) --syncconfig $(Kconfig)
 
@@ -63,8 +58,3 @@ distclean: clean
 	-@rm -rf $(rm-distclean)
 
 .PHONY: help distclean
-
-define call_fixdep
-	@$(FIXDEP) $(1) $(2) unused > $(1).tmp
-	@mv $(1).tmp $(1)
-endef
