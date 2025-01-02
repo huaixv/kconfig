@@ -22,8 +22,8 @@ $(warning $(COLOR_RED)To build the project, first run 'make menuconfig'.$(COLOR_
 endif
 
 Q            := @
-KCONFIG_PATH := $(NEMU_HOME)/tools/kconfig
-Kconfig      := $(NEMU_HOME)/Kconfig
+KCONFIG_PATH := $(notdir $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
+Kconfig      := $(shell pwd)/Kconfig
 rm-distclean += include/generated include/config .config .config.old
 silent := -s
 
