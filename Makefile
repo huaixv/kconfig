@@ -14,6 +14,10 @@ else
 $(error bad target=$(NAME))
 endif
 
+ifneq ($(CONFIG_),)
+CFLAGS += -DCONFIG_=\"$(CONFIG_)\"
+endif
+
 include build.mk
 
 $(obj)/lexer.lex.o: $(obj)/parser.tab.h
