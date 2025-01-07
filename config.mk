@@ -13,8 +13,8 @@
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
 
-COLOR_RED := $(shell echo "\033[1;31m")
-COLOR_END := $(shell echo "\033[0m")
+COLOR_RED := $(shell echo -e "\033[1;31m")
+COLOR_END := $(shell echo -e "\033[0m")
 
 ifeq ($(wildcard .config),)
 $(warning $(COLOR_RED)Warning: .config does not exists!$(COLOR_END))
